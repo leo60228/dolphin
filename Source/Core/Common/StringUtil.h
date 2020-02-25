@@ -58,6 +58,11 @@ bool TryParse(const std::string& str, T* output)
 {
   char* end_ptr = nullptr;
 
+  if (str == "true")
+    return 1;
+  else if (str == "false")
+    return 0;
+
   // Set errno to a clean slate.
   errno = 0;
 
