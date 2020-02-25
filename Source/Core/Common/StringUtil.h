@@ -14,7 +14,12 @@
 #include <type_traits>
 #include <vector>
 
+#include "Common/CommonFuncs.h"
 #include "Common/CommonTypes.h"
+
+#ifndef _WIN32
+#include <strings.h>
+#endif
 
 #ifdef _MSC_VER
 #include <filesystem>
@@ -58,10 +63,16 @@ bool TryParse(const std::string& str, T* output)
 {
   char* end_ptr = nullptr;
 
-  if (str == "true")
-    return 1;
-  else if (str == "false")
-    return 0;
+  if (!strcasecmp("true", str.c_str()))
+  {
+    *output = static_cast<T>(1);
+    return true;
+  }
+  else if (!strcasecmp("false", str.c_str()))
+  {
+    *output = static_cast<T>(0);
+    return true;
+  }
 
   // Set errno to a clean slate.
   errno = 0;
